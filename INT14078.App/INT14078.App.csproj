@@ -45,6 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BK.cs" />
+    <Compile Include="Common\DatabaseBase.cs" />
+    <Compile Include="Common\ExecuteQuery.cs" />
+    <Compile Include="Common\PositionBackupInfo.cs" />
+    <Compile Include="Core\ConnectionInfo.cs" />
+    <Compile Include="Core\QueryStrings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -68,6 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\INT1408.Shared\INT1408.Shared.csproj">
+      <Project>{d2cd4374-a94b-4ac9-8de6-f4576ce66d84}</Project>
+      <Name>INT1408.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
