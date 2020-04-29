@@ -10,7 +10,7 @@ namespace INT14078.App.Common
     {
         public int Position { get; set; }
 
-        public string Name { get; set; }
+        public string Description { get; set; }
 
         public DateTime BackupDateTime { get; set; }
 

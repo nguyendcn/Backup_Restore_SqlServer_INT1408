@@ -49,6 +49,7 @@ namespace INT14078.App
                 try
                 {
                     _currentDB = value;
+                    QueryStrings.CurrentDBName = value.Name;
                     CurrentDatabaseHadChanged(value, null);
                 }
                 catch (Exception ex)
@@ -69,10 +70,11 @@ namespace INT14078.App
         public event CurrentDatabaseChanged OnCurrentDatabaseChanged;
         #endregion
 
-        public BK(ConnectionInfo connectionInfo, ListDatabaseBaseChanged changed)
+        public BK(ConnectionInfo connectionInfo, ListDatabaseBaseChanged changed, CurrentDatabaseChanged currentChanged)
         {
             ConnectionInfo = connectionInfo;
             this.OnListDatabaseBaseChanged = changed;
+            this.OnCurrentDatabaseChanged = currentChanged;
 
             DatabaseBases = ExecuteQuery<DatabaseBase>.Execute(connectionInfo, QueryStrings.GetAllDatabaseName, 
                             (sqlDataReader) =>
@@ -83,6 +85,9 @@ namespace INT14078.App
                                     Name = SqlSupport.Read<String>(sqlDataReader, "name"),
                             };
                         }).ToList<DatabaseBase>();
+
+            if(DatabaseBases.Count != 0)
+                CurrentDataBase = DatabaseBases[0];
         }
 
 
@@ -96,7 +101,7 @@ namespace INT14078.App
                             return new PositionBackupInfo()
                             {
                                 Position = SqlSupport.Read<Int32>(sqlDataReader, "position"),
-                                Name = SqlSupport.Read<String>(sqlDataReader, "name"),
+                                Description = SqlSupport.Read<String>(sqlDataReader, "description"),
                                 BackupDateTime = SqlSupport.Read<DateTime>(sqlDataReader, "backup_start_date"),
                                 UserBackup = SqlSupport.Read<String>(sqlDataReader, "user_name"),
                             };

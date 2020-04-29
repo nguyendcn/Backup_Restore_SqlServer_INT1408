@@ -17,6 +17,8 @@ namespace INT1408.UI
 {
     public partial class frm_Main : Form
     {
+        private BK bk;
+
         public frm_Main()
         {
             InitializeComponent();
@@ -34,22 +36,24 @@ namespace INT1408.UI
 
         private void Uc_login_ResponseResultLogin(string server, string user, string password)
         {
-            BK bk = new BK(new ConnectionInfo(server, user, password), Bk_OnListDatabaseBaseChanged);
-            bk.OnCurrentDatabaseChanged += Bk_OnCurrentDatabaseChanged;
+            bk = new BK(new ConnectionInfo(server, user, password)
+                , Bk_OnListDatabaseBaseChanged
+                , Bk_OnCurrentDatabaseChanged);
         }
 
         private void Bk_OnCurrentDatabaseChanged(DatabaseBase currentDB, List<PositionBackupInfo> positionBackupInfos)
         {
+            lsv_BackupVersions.Items.Clear();
             lsv_BackupVersions.View = View.Details;
+            lsv_BackupVersions.OwnerDraw = true;
 
-            foreach (var property in typeof(PositionBackupInfo).GetProperties())
-            {
-                lsv_BackupVersions.Columns.Add(property.Name);
-            }
+            lbl_BackupCount.Text = positionBackupInfos.Count.ToString();
 
-            foreach(var item in positionBackupInfos)
+            foreach (var item in positionBackupInfos)
             {
-                lsv_BackupVersions.Items.AddRange( )
+                ListViewItem row = new ListViewItem(new string[]{item.Position.ToString(), item.Description, item.BackupDateTime.ToString("MM/dd/yyyy HH:mm:ss"), item.UserBackup});
+                
+                lsv_BackupVersions.Items.Add(row);
             }
         }
 
@@ -73,12 +77,28 @@ namespace INT1408.UI
 
             lbl_DbName.Text = btn_clicked.Text;
 
-            LoadAllBackupVersionByDB();
+            bk.CurrentDataBase = new DatabaseBase()
+            {
+                ID = int.Parse(btn_clicked.Tag.ToString()),
+                Name = btn_clicked.Text.ToString()
+            }; ;
         }
 
         private void InvokeUI(Action action)
         {
-            this.Invoke(action);
+            if (!this.IsDisposed)
+            {
+                try
+                {
+                    this.Invoke(action);
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+                
         }
 
         private void uc_login_Load(object sender, EventArgs e)
@@ -88,11 +108,18 @@ namespace INT1408.UI
 
         #region Support Function
 
-        public void LoadAllBackupVersionByDB()
-        {
-
-        }
 
         #endregion
+
+        private void lsv_BackupVersions_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+        {
+            e.Graphics.FillRectangle(Brushes.Lime, e.Bounds);
+            e.DrawText();
+        }
+
+        private void lsv_BackupVersions_DrawItem(object sender, DrawListViewItemEventArgs e)
+        {
+            e.DrawDefault = true;
+        }
     }
 }

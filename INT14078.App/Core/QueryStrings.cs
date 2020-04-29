@@ -8,6 +8,8 @@ namespace INT14078.App.Core
 {
     public static class QueryStrings
     {
+        public static string CurrentDBName { get; set; }
+
         public static string GetAllDatabaseName
         {
             get
@@ -43,17 +45,17 @@ namespace INT14078.App.Core
             get
             {
                 return
-                    @"
-                        SELECT position, name, backup_start_date , user_name 
+                    $@"
+                        SELECT position, description, backup_start_date , user_name 
                         FROM  msdb.dbo.backupset 
-                        WHERE  database_name ='Test' AND type='D' AND 
+                        WHERE  database_name ='{CurrentDBName}' AND type='D' AND 
                              backup_set_id >= 
                         		( SELECT backup_set_id 
                         		  FROM 	msdb.dbo.backupset
                         		  WHERE media_set_id = 
                         				( SELECT  MAX(media_set_id) 
                         				  FROM msdb.dbo.backupset  
-                                          WHERE database_name = 'Test' AND type='D'
+                                          WHERE database_name = '{CurrentDBName}' AND type='D'
                                          ) AND position = 1    
                                  ) 
                         ORDER BY position DESC

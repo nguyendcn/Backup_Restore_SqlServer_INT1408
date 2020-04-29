@@ -60,6 +60,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.dtp_DateRestore = new System.Windows.Forms.DateTimePicker();
             this.dtp_TimeRestore = new System.Windows.Forms.DateTimePicker();
+            this.clmn_Position = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmn_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmn_Date = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmn_User = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -244,13 +248,24 @@
             // 
             // lsv_BackupVersions
             // 
+            this.lsv_BackupVersions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.clmn_Position,
+            this.clmn_Description,
+            this.clmn_Date,
+            this.clmn_User});
             this.lsv_BackupVersions.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lsv_BackupVersions.FullRowSelect = true;
+            this.lsv_BackupVersions.GridLines = true;
+            this.lsv_BackupVersions.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lsv_BackupVersions.HideSelection = false;
             this.lsv_BackupVersions.Location = new System.Drawing.Point(0, 0);
+            this.lsv_BackupVersions.MultiSelect = false;
             this.lsv_BackupVersions.Name = "lsv_BackupVersions";
             this.lsv_BackupVersions.Size = new System.Drawing.Size(776, 214);
             this.lsv_BackupVersions.TabIndex = 0;
             this.lsv_BackupVersions.UseCompatibleStateImageBehavior = false;
+            this.lsv_BackupVersions.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lsv_BackupVersions_DrawColumnHeader);
+            this.lsv_BackupVersions.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.lsv_BackupVersions_DrawItem);
             // 
             // flowLayoutPanel1
             // 
@@ -443,6 +458,29 @@
             this.dtp_TimeRestore.Size = new System.Drawing.Size(116, 26);
             this.dtp_TimeRestore.TabIndex = 4;
             // 
+            // clmn_Position
+            // 
+            this.clmn_Position.Text = "Version";
+            this.clmn_Position.Width = 120;
+            // 
+            // clmn_Description
+            // 
+            this.clmn_Description.Text = "Description";
+            this.clmn_Description.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.clmn_Description.Width = 150;
+            // 
+            // clmn_Date
+            // 
+            this.clmn_Date.Text = "Date Backup";
+            this.clmn_Date.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.clmn_Date.Width = 250;
+            // 
+            // clmn_User
+            // 
+            this.clmn_User.Text = "User Backup";
+            this.clmn_User.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.clmn_User.Width = 250;
+            // 
             // frm_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -508,5 +546,9 @@
         private System.Windows.Forms.DateTimePicker dtp_DateRestore;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox ckb_DelAllBeforeBackup;
+        private System.Windows.Forms.ColumnHeader clmn_Position;
+        private System.Windows.Forms.ColumnHeader clmn_Description;
+        private System.Windows.Forms.ColumnHeader clmn_Date;
+        private System.Windows.Forms.ColumnHeader clmn_User;
     }
 }
