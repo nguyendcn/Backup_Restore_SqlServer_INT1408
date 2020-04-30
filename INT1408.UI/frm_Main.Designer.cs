@@ -42,28 +42,28 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.pnl_WorkControl = new System.Windows.Forms.Panel();
+            this.dtp_TimeRestore = new System.Windows.Forms.DateTimePicker();
+            this.dtp_DateRestore = new System.Windows.Forms.DateTimePicker();
+            this.label5 = new System.Windows.Forms.Label();
+            this.ckb_DelAllBeforeBackup = new System.Windows.Forms.CheckBox();
             this.lsv_BackupVersions = new System.Windows.Forms.ListView();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.uc_login = new INT1408.UI.UI.uc_Login();
+            this.clmn_Position = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmn_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmn_Date = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmn_User = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.lbl_DbName = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lbl_BackupCount = new System.Windows.Forms.Label();
-            this.ckb_DelAllBeforeBackup = new System.Windows.Forms.CheckBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.dtp_DateRestore = new System.Windows.Forms.DateTimePicker();
-            this.dtp_TimeRestore = new System.Windows.Forms.DateTimePicker();
-            this.clmn_Position = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmn_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmn_Date = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmn_User = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btn_Backup = new System.Windows.Forms.Button();
+            this.btn_Restore = new System.Windows.Forms.Button();
+            this.btn_RestoreByTime = new System.Windows.Forms.Button();
+            this.btn_CreateDevice = new System.Windows.Forms.Button();
+            this.btn_Exit = new System.Windows.Forms.Button();
+            this.uc_login = new INT1408.UI.UI.uc_Login();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -74,8 +74,8 @@
             this.panel3.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.pnl_WorkControl.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -246,6 +246,43 @@
             this.pnl_WorkControl.Size = new System.Drawing.Size(776, 477);
             this.pnl_WorkControl.TabIndex = 0;
             // 
+            // dtp_TimeRestore
+            // 
+            this.dtp_TimeRestore.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtp_TimeRestore.Location = new System.Drawing.Point(470, 307);
+            this.dtp_TimeRestore.MinDate = new System.DateTime(2020, 1, 1, 0, 0, 0, 0);
+            this.dtp_TimeRestore.Name = "dtp_TimeRestore";
+            this.dtp_TimeRestore.Size = new System.Drawing.Size(116, 26);
+            this.dtp_TimeRestore.TabIndex = 4;
+            // 
+            // dtp_DateRestore
+            // 
+            this.dtp_DateRestore.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtp_DateRestore.Location = new System.Drawing.Point(339, 307);
+            this.dtp_DateRestore.MinDate = new System.DateTime(2020, 1, 1, 0, 0, 0, 0);
+            this.dtp_DateRestore.Name = "dtp_DateRestore";
+            this.dtp_DateRestore.Size = new System.Drawing.Size(116, 26);
+            this.dtp_DateRestore.TabIndex = 3;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(105, 310);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(212, 18);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Ngày giờ muốn phục hồi đến ";
+            // 
+            // ckb_DelAllBeforeBackup
+            // 
+            this.ckb_DelAllBeforeBackup.AutoSize = true;
+            this.ckb_DelAllBeforeBackup.Location = new System.Drawing.Point(182, 242);
+            this.ckb_DelAllBeforeBackup.Name = "ckb_DelAllBeforeBackup";
+            this.ckb_DelAllBeforeBackup.Size = new System.Drawing.Size(382, 22);
+            this.ckb_DelAllBeforeBackup.TabIndex = 1;
+            this.ckb_DelAllBeforeBackup.Text = "Xóa tất cả các bản backup trước đó  rồi mới backup";
+            this.ckb_DelAllBeforeBackup.UseVisualStyleBackColor = true;
+            // 
             // lsv_BackupVersions
             // 
             this.lsv_BackupVersions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -267,100 +304,28 @@
             this.lsv_BackupVersions.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lsv_BackupVersions_DrawColumnHeader);
             this.lsv_BackupVersions.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.lsv_BackupVersions_DrawItem);
             // 
-            // flowLayoutPanel1
+            // clmn_Position
             // 
-            this.flowLayoutPanel1.Controls.Add(this.button1);
-            this.flowLayoutPanel1.Controls.Add(this.button2);
-            this.flowLayoutPanel1.Controls.Add(this.button3);
-            this.flowLayoutPanel1.Controls.Add(this.button4);
-            this.flowLayoutPanel1.Controls.Add(this.button5);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(939, 40);
-            this.flowLayoutPanel1.TabIndex = 2;
+            this.clmn_Position.Text = "Version";
+            this.clmn_Position.Width = 120;
             // 
-            // button1
+            // clmn_Description
             // 
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Image = global::INT1408.UI.Properties.Resources.icons8_data_backup_32;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(3, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(106, 38);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Sao Lưu";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button1.UseVisualStyleBackColor = true;
+            this.clmn_Description.Text = "Description";
+            this.clmn_Description.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.clmn_Description.Width = 150;
             // 
-            // button2
+            // clmn_Date
             // 
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Image = global::INT1408.UI.Properties.Resources.icons8_database_restore_32;
-            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(115, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(113, 38);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Phục Hồi";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button2.UseVisualStyleBackColor = true;
+            this.clmn_Date.Text = "Date Backup";
+            this.clmn_Date.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.clmn_Date.Width = 250;
             // 
-            // button3
+            // clmn_User
             // 
-            this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Image = global::INT1408.UI.Properties.Resources.icons8_alarm_clock_32;
-            this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button3.Location = new System.Drawing.Point(234, 3);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(182, 38);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Phục hồi theo TG";
-            this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.FlatAppearance.BorderSize = 0;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Image = global::INT1408.UI.Properties.Resources.icons8_save_close_32;
-            this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button4.Location = new System.Drawing.Point(422, 3);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(125, 38);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "Tạo Device";
-            this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // button5
-            // 
-            this.button5.FlatAppearance.BorderSize = 0;
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.Image = global::INT1408.UI.Properties.Resources.icons8_close_window_32;
-            this.button5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button5.Location = new System.Drawing.Point(553, 3);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(94, 38);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "Thoát";
-            this.button5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button5.UseVisualStyleBackColor = true;
-            // 
-            // uc_login
-            // 
-            this.uc_login.BackColor = System.Drawing.Color.White;
-            this.uc_login.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uc_login.Font = new System.Drawing.Font("Century Schoolbook", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uc_login.Location = new System.Drawing.Point(0, 0);
-            this.uc_login.Margin = new System.Windows.Forms.Padding(4);
-            this.uc_login.Name = "uc_login";
-            this.uc_login.Size = new System.Drawing.Size(945, 573);
-            this.uc_login.TabIndex = 1;
-            this.uc_login.Load += new System.EventHandler(this.uc_login_Load);
+            this.clmn_User.Text = "User Backup";
+            this.clmn_User.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.clmn_User.Width = 250;
             // 
             // flowLayoutPanel2
             // 
@@ -420,66 +385,102 @@
             this.lbl_BackupCount.Size = new System.Drawing.Size(126, 18);
             this.lbl_BackupCount.TabIndex = 4;
             this.lbl_BackupCount.Text = "db_backupCount";
+            this.lbl_BackupCount.TextChanged += new System.EventHandler(this.lbl_BackupCount_TextChanged);
             // 
-            // ckb_DelAllBeforeBackup
+            // flowLayoutPanel1
             // 
-            this.ckb_DelAllBeforeBackup.AutoSize = true;
-            this.ckb_DelAllBeforeBackup.Location = new System.Drawing.Point(182, 242);
-            this.ckb_DelAllBeforeBackup.Name = "ckb_DelAllBeforeBackup";
-            this.ckb_DelAllBeforeBackup.Size = new System.Drawing.Size(382, 22);
-            this.ckb_DelAllBeforeBackup.TabIndex = 1;
-            this.ckb_DelAllBeforeBackup.Text = "Xóa tất cả các bản backup trước đó  rồi mới backup";
-            this.ckb_DelAllBeforeBackup.UseVisualStyleBackColor = true;
+            this.flowLayoutPanel1.Controls.Add(this.btn_Backup);
+            this.flowLayoutPanel1.Controls.Add(this.btn_Restore);
+            this.flowLayoutPanel1.Controls.Add(this.btn_RestoreByTime);
+            this.flowLayoutPanel1.Controls.Add(this.btn_CreateDevice);
+            this.flowLayoutPanel1.Controls.Add(this.btn_Exit);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(939, 40);
+            this.flowLayoutPanel1.TabIndex = 2;
             // 
-            // label5
+            // btn_Backup
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(105, 310);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(212, 18);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Ngày giờ muốn phục hồi đến ";
+            this.btn_Backup.FlatAppearance.BorderSize = 0;
+            this.btn_Backup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Backup.Image = global::INT1408.UI.Properties.Resources.icons8_data_backup_32;
+            this.btn_Backup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_Backup.Location = new System.Drawing.Point(3, 3);
+            this.btn_Backup.Name = "btn_Backup";
+            this.btn_Backup.Size = new System.Drawing.Size(106, 38);
+            this.btn_Backup.TabIndex = 0;
+            this.btn_Backup.Text = "Sao Lưu";
+            this.btn_Backup.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_Backup.UseVisualStyleBackColor = true;
             // 
-            // dtp_DateRestore
+            // btn_Restore
             // 
-            this.dtp_DateRestore.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtp_DateRestore.Location = new System.Drawing.Point(339, 307);
-            this.dtp_DateRestore.MinDate = new System.DateTime(2020, 1, 1, 0, 0, 0, 0);
-            this.dtp_DateRestore.Name = "dtp_DateRestore";
-            this.dtp_DateRestore.Size = new System.Drawing.Size(116, 26);
-            this.dtp_DateRestore.TabIndex = 3;
+            this.btn_Restore.FlatAppearance.BorderSize = 0;
+            this.btn_Restore.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Restore.Image = global::INT1408.UI.Properties.Resources.icons8_database_restore_32;
+            this.btn_Restore.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_Restore.Location = new System.Drawing.Point(115, 3);
+            this.btn_Restore.Name = "btn_Restore";
+            this.btn_Restore.Size = new System.Drawing.Size(113, 38);
+            this.btn_Restore.TabIndex = 1;
+            this.btn_Restore.Text = "Phục Hồi";
+            this.btn_Restore.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_Restore.UseVisualStyleBackColor = true;
             // 
-            // dtp_TimeRestore
+            // btn_RestoreByTime
             // 
-            this.dtp_TimeRestore.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtp_TimeRestore.Location = new System.Drawing.Point(470, 307);
-            this.dtp_TimeRestore.MinDate = new System.DateTime(2020, 1, 1, 0, 0, 0, 0);
-            this.dtp_TimeRestore.Name = "dtp_TimeRestore";
-            this.dtp_TimeRestore.Size = new System.Drawing.Size(116, 26);
-            this.dtp_TimeRestore.TabIndex = 4;
+            this.btn_RestoreByTime.FlatAppearance.BorderSize = 0;
+            this.btn_RestoreByTime.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_RestoreByTime.Image = global::INT1408.UI.Properties.Resources.icons8_alarm_clock_32;
+            this.btn_RestoreByTime.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_RestoreByTime.Location = new System.Drawing.Point(234, 3);
+            this.btn_RestoreByTime.Name = "btn_RestoreByTime";
+            this.btn_RestoreByTime.Size = new System.Drawing.Size(182, 38);
+            this.btn_RestoreByTime.TabIndex = 2;
+            this.btn_RestoreByTime.Text = "Phục hồi theo TG";
+            this.btn_RestoreByTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_RestoreByTime.UseVisualStyleBackColor = true;
             // 
-            // clmn_Position
+            // btn_CreateDevice
             // 
-            this.clmn_Position.Text = "Version";
-            this.clmn_Position.Width = 120;
+            this.btn_CreateDevice.FlatAppearance.BorderSize = 0;
+            this.btn_CreateDevice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_CreateDevice.Image = global::INT1408.UI.Properties.Resources.icons8_save_close_32;
+            this.btn_CreateDevice.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_CreateDevice.Location = new System.Drawing.Point(422, 3);
+            this.btn_CreateDevice.Name = "btn_CreateDevice";
+            this.btn_CreateDevice.Size = new System.Drawing.Size(125, 38);
+            this.btn_CreateDevice.TabIndex = 3;
+            this.btn_CreateDevice.Text = "Tạo Device";
+            this.btn_CreateDevice.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_CreateDevice.UseVisualStyleBackColor = true;
             // 
-            // clmn_Description
+            // btn_Exit
             // 
-            this.clmn_Description.Text = "Description";
-            this.clmn_Description.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.clmn_Description.Width = 150;
+            this.btn_Exit.FlatAppearance.BorderSize = 0;
+            this.btn_Exit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Exit.Image = global::INT1408.UI.Properties.Resources.icons8_close_window_32;
+            this.btn_Exit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_Exit.Location = new System.Drawing.Point(553, 3);
+            this.btn_Exit.Name = "btn_Exit";
+            this.btn_Exit.Size = new System.Drawing.Size(94, 38);
+            this.btn_Exit.TabIndex = 4;
+            this.btn_Exit.Text = "Thoát";
+            this.btn_Exit.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_Exit.UseVisualStyleBackColor = true;
             // 
-            // clmn_Date
+            // uc_login
             // 
-            this.clmn_Date.Text = "Date Backup";
-            this.clmn_Date.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.clmn_Date.Width = 250;
-            // 
-            // clmn_User
-            // 
-            this.clmn_User.Text = "User Backup";
-            this.clmn_User.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.clmn_User.Width = 250;
+            this.uc_login.BackColor = System.Drawing.Color.White;
+            this.uc_login.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uc_login.Font = new System.Drawing.Font("Century Schoolbook", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.uc_login.Location = new System.Drawing.Point(0, 0);
+            this.uc_login.Margin = new System.Windows.Forms.Padding(4);
+            this.uc_login.Name = "uc_login";
+            this.uc_login.Size = new System.Drawing.Size(945, 573);
+            this.uc_login.TabIndex = 1;
+            this.uc_login.Load += new System.EventHandler(this.uc_login_Load);
             // 
             // frm_Main
             // 
@@ -505,9 +506,9 @@
             this.tableLayoutPanel5.ResumeLayout(false);
             this.pnl_WorkControl.ResumeLayout(false);
             this.pnl_WorkControl.PerformLayout();
-            this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -526,11 +527,11 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button btn_Backup;
+        private System.Windows.Forms.Button btn_Restore;
+        private System.Windows.Forms.Button btn_RestoreByTime;
+        private System.Windows.Forms.Button btn_CreateDevice;
+        private System.Windows.Forms.Button btn_Exit;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Panel pnl_WorkControl;

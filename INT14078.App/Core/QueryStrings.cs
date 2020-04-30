@@ -8,7 +8,21 @@ namespace INT14078.App.Core
 {
     public static class QueryStrings
     {
-        public static string CurrentDBName { get; set; }
+        private static string _currentDBName;
+        public static string CurrentDBName
+        {
+            get
+            {
+                return _currentDBName;
+            }
+            set
+            {
+                _currentDBName = value;
+                CurrentDevice = $"DEVICE_{value}";
+            }
+        }
+
+        public static string CurrentDevice { get; set; }
 
         public static string GetAllDatabaseName
         {
@@ -40,6 +54,17 @@ namespace INT14078.App.Core
             }
         }
 
+        public static string GetAllDeviceName
+        {
+            get
+            {
+                return
+                    @"
+                        SELECT name  FROM sys.backup_devices
+                    ";
+            }
+        }
+
         public static string GetAllPositionOfBackupVersions
         {
             get
@@ -60,6 +85,59 @@ namespace INT14078.App.Core
                                  ) 
                         ORDER BY position DESC
                      ";
+            }
+        }
+
+        public static string BackupFullDB
+        {
+            get
+            {
+                return
+                    $@"
+                        BACKUP DATABASE {CurrentDBName}
+                        TO {CurrentDevice}
+                      ";
+            }
+        }
+
+        public static string BackupDBWithInit
+        {
+            get
+            {
+                return
+                    $@"
+                        BACKUP DATABASE {CurrentDBName}
+                        TO {CurrentDevice}
+                        WITH INIT
+                      ";
+            }
+        }
+
+        public static string GetAllDeviceNameByDBName
+        {
+            get
+            {
+                return
+                    $@"
+                        SELECT DISTINCT fm.logical_device_name 
+                        FROM
+                        (   SELECT media_set_id 
+                            FROM  msdb.dbo.backupset 
+                            WHERE  database_name ='Test' AND type='D' AND 
+                                 backup_set_id >= 
+                            		( SELECT backup_set_id 
+                            		  FROM 	msdb.dbo.backupset
+                            		  WHERE media_set_id = 
+                            				( SELECT  MAX(media_set_id) 
+                            				  FROM msdb.dbo.backupset  
+                                              WHERE database_name = 'Test' AND type='D'
+                                             ) AND position = 1    
+                                     ) 
+                        ) as bs
+                        Inner join 
+                        (select * from msdb.dbo.backupmediafamily) as fm
+                        on bs.media_set_id = fm.media_set_id
+                      ";
             }
         }
     }

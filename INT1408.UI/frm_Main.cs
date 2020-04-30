@@ -41,8 +41,20 @@ namespace INT1408.UI
                 , Bk_OnCurrentDatabaseChanged);
         }
 
-        private void Bk_OnCurrentDatabaseChanged(DatabaseBase currentDB, List<PositionBackupInfo> positionBackupInfos)
+        private void Bk_OnCurrentDatabaseChanged(DatabaseBase currentDB, List<PositionBackupInfo> positionBackupInfos, string deviceName)
         {
+            if(!String.IsNullOrEmpty(deviceName)) //had device
+            {
+                btn_CreateDevice.Enabled = false;
+                btn_Backup.Enabled = true;
+            }
+            else
+            {
+                btn_CreateDevice.Enabled = true;
+                btn_Backup.Enabled = false;
+            }
+
+            //setup listview
             lsv_BackupVersions.Items.Clear();
             lsv_BackupVersions.View = View.Details;
             lsv_BackupVersions.OwnerDraw = true;
@@ -120,6 +132,10 @@ namespace INT1408.UI
         private void lsv_BackupVersions_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
             e.DrawDefault = true;
+        }
+
+        private void lbl_BackupCount_TextChanged(object sender, EventArgs e)
+        {
         }
     }
 }

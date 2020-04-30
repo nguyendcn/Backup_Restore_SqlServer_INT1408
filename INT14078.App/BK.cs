@@ -50,7 +50,7 @@ namespace INT14078.App
                 {
                     _currentDB = value;
                     QueryStrings.CurrentDBName = value.Name;
-                    CurrentDatabaseHadChanged(value, null);
+                    CurrentDatabaseHadChanged(value);
                 }
                 catch (Exception ex)
                 {
@@ -60,12 +60,14 @@ namespace INT14078.App
             }
         }
 
+        public string DeviceName { get; set; }
+
         #region Event
         public delegate void ListDatabaseBaseChanged(List<DatabaseBase> databaseBases);
 
         public event ListDatabaseBaseChanged OnListDatabaseBaseChanged;
 
-        public delegate void CurrentDatabaseChanged(DatabaseBase currentDB, List<PositionBackupInfo> positionBackupInfos);
+        public delegate void CurrentDatabaseChanged(DatabaseBase currentDB, List<PositionBackupInfo> positionBackupInfos = null, string deviceName = null);
 
         public event CurrentDatabaseChanged OnCurrentDatabaseChanged;
         #endregion
@@ -90,7 +92,6 @@ namespace INT14078.App
                 CurrentDataBase = DatabaseBases[0];
         }
 
-
         #region Support Function
 
         private IEnumerable<PositionBackupInfo> GetAllPositionBackupVersions()
@@ -109,6 +110,27 @@ namespace INT14078.App
                       );
         }
 
+        private bool CurrentDBHadDevice()
+        {
+            IEnumerable<String> devicesname = ExecuteQuery<String>.Execute(ConnectionInfo, QueryStrings.GetAllDeviceName
+                                                    , (sqlDataReader) =>
+                                                    {
+                                                        return SqlSupport.Read<String>(sqlDataReader, "name");
+                                                    });
+
+            return devicesname.Where(x => x.Contains(CurrentDataBase.Name)).Count() > 0;
+        }
+
+        private string GetCurrentDeviceOfDB()
+        {
+            IEnumerable<String> devicesname = ExecuteQuery<String>.Execute(ConnectionInfo, QueryStrings.GetAllDeviceNameByDBName
+                                                   , (sqlDataReader) =>
+                                                   {
+                                                       return SqlSupport.Read<String>(sqlDataReader, "logical_device_name");
+                                                   });
+            return devicesname.FirstOrDefault();
+        }
+
         #endregion
 
         #region Virtual function
@@ -119,15 +141,31 @@ namespace INT14078.App
                
         }
 
-        public virtual void CurrentDatabaseHadChanged(DatabaseBase currentDB, List<PositionBackupInfo> positionBackupInfos)
+        public virtual void CurrentDatabaseHadChanged(DatabaseBase currentDB, List<PositionBackupInfo> positionBackupInfos = null, string deviceName = null)
         {
             if (OnCurrentDatabaseChanged != null)
             {
                 if(positionBackupInfos == null)
                 {
                     positionBackupInfos = GetAllPositionBackupVersions().ToList<PositionBackupInfo>();
+
+                    bool hadDevice = CurrentDBHadDevice();
+
+                    if (!hadDevice && positionBackupInfos.Count != 0) // name of device is not default
+                    {
+                        DeviceName = GetCurrentDeviceOfDB();
+                        QueryStrings.CurrentDevice = DeviceName;
+                    }
+                    else if(hadDevice)
+                    {
+                        DeviceName = QueryStrings.CurrentDevice;
+                    }
+                    else if(!hadDevice)
+                    {
+                        DeviceName = null;
+                    }
                 }
-                OnCurrentDatabaseChanged(currentDB, positionBackupInfos);
+                OnCurrentDatabaseChanged(currentDB, positionBackupInfos, DeviceName);
             }
         }
         #endregion
