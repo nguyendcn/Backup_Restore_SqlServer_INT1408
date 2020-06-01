@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -22,6 +23,9 @@ namespace INT1408.UI
         public frm_Main()
         {
             InitializeComponent();
+
+            dtp_DateRestore.CustomFormat = "dd-MM-yyyy";
+            dtp_TimeRestore.CustomFormat = "HH:mm:ss";
 
             Thread thread = new Thread(new ThreadStart(() =>
             {
@@ -136,6 +140,133 @@ namespace INT1408.UI
 
         private void lbl_BackupCount_TextChanged(object sender, EventArgs e)
         {
+        }
+
+        private void btn_CreateDevice_Click(object sender, EventArgs e)
+        {
+            bool isSuccess = bk.CreateDevice();
+
+            if (isSuccess)
+            {
+                MessageBox.Show("Device had created!");
+            }
+            else
+            {
+                MessageBox.Show("Can not create device.");
+            }
+        }
+
+        private void btn_Backup_Click(object sender, EventArgs e)
+        {
+            if (chk_DelAllBeforeBackup.Checked)
+            {
+                bk.DelAllBackupBeforeBackupDB();
+            }
+            else
+            {
+                bk.BackupFullDB();
+            }
+        }
+
+        private void cmsi_Delete_Click(object sender, EventArgs e)
+        {
+            if(lsv_BackupVersions.SelectedItems.Count != 0)
+            {
+                ListViewItem item = lsv_BackupVersions.SelectedItems[0];
+                string position = item.SubItems[0].Text;
+
+                DialogResult isDelete =  MessageBox.Show("Bạn có chắc muốn xóa bản backup này không?", "XÓA", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (isDelete == DialogResult.Yes)
+                {
+                    bool deleteSuccess = bk.DeleteBackupByPosition(int.Parse(position));
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn bản backup!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btn_Restore_Click(object sender, EventArgs e)
+        {
+            if (lsv_BackupVersions.SelectedItems.Count != 0)
+            {
+                ListViewItem item = lsv_BackupVersions.SelectedItems[0];
+                string position = item.SubItems[0].Text;
+
+                bool isSuccess = bk.RestoreDBToPosition(int.Parse(position));
+
+                if (isSuccess)
+                {
+                    MessageBox.Show("Phục hồi thành công ");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn bản backup!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btn_RestoreByTime_Click(object sender, EventArgs e)
+        {
+            if (lsv_BackupVersions.Items.Count != 0)
+            {
+                ListViewItem item = lsv_BackupVersions.Items[0];
+                string position = item.SubItems[0].Text;
+                DateTime dateTimeFullBK = DateTime.Parse(item.SubItems[2].Text);
+                DateTime dateTimeNow = DateTime.Now;
+    
+                DateTime timeEnter = DateTime.ParseExact(dtp_TimeRestore.Text
+                                            , "HH:mm:ss"
+                                            , CultureInfo.InvariantCulture);
+
+                DateTime dateEnter = DateTime.ParseExact(dtp_DateRestore.Text
+                                            , "dd-MM-yyyy"
+                                            , CultureInfo.InvariantCulture);
+
+                DateTime dateTimeEnter = new DateTime(dateEnter.Year, dateEnter.Month, dateEnter.Day, timeEnter.Hour, timeEnter.Minute, timeEnter.Second);
+
+                if (dateTimeEnter < dateTimeFullBK)
+                {
+                    MessageBox.Show("Thời gian phục hồi phải sau thời gian fullbackup đó.");
+                    return;
+                }
+                else if(dateTimeEnter > DateTime.Now)
+                {
+                    MessageBox.Show("Thời gian phục hồi phải trước thời gian hiện tai.");
+                    return;
+                }
+                else
+                {
+                    if (bk.ValidateRestoreDBByTime())
+                    {
+                        bool isSuccess = bk.RestoreBDByTime(dateTimeEnter);
+                        if (isSuccess)
+                        {
+                            MessageBox.Show("Phục hồi thành công");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Không thể phục hồi do lỗi nào đó.");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("RECOVERY MODE phải là FULL.");
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng backup database!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btn_Exit_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

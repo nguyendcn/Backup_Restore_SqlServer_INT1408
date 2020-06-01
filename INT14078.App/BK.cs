@@ -4,6 +4,7 @@ using INT1408.Shared.SqlSupport;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -90,6 +91,149 @@ namespace INT14078.App
 
             if(DatabaseBases.Count != 0)
                 CurrentDataBase = DatabaseBases[0];
+        }
+
+        public bool CreateDevice()
+        {
+            String currentPath = this.GetType().Assembly.Location;
+
+            String folderPath = currentPath.Substring(0, currentPath.LastIndexOf("\\"));
+
+            DirectoryInfo directoryInfo = null;
+            if (!Directory.Exists($"{folderPath}\\BackupFiles\\{CurrentDataBase.Name}"))
+            {
+                directoryInfo =  Directory.CreateDirectory($"{folderPath}\\BackupFiles\\{CurrentDataBase.Name}");
+            }
+
+            if (directoryInfo == null)
+            {
+                QueryStrings.CurrentPathDevice = $"{folderPath}\\BackupFiles\\{CurrentDataBase.Name}\\{CurrentDataBase.Name}.bak";
+            }
+            else
+            {
+                QueryStrings.CurrentPathDevice = $"{directoryInfo.FullName}\\{CurrentDataBase.Name}.bak";
+            }
+
+            IEnumerable<Boolean> result =  ExecuteQuery<Boolean>.Execute(ConnectionInfo, QueryStrings.CreateDevice, (sqlDataReader)=> {
+                                            return SqlSupport.Read<Boolean>(sqlDataReader, "");
+                                        });
+
+            this.CurrentDataBase = _currentDB;
+
+            return result.FirstOrDefault();
+        }
+
+        public void BackupFullDB()
+        {
+            ExecuteQuery<int>.Execute(ConnectionInfo, QueryStrings.BackupFullDB, null);
+
+            CurrentDataBase = _currentDB;
+        }
+
+        public void DelAllBackupBeforeBackupDB()
+        {
+            //String pathDevice = ExecuteQuery<String>.Execute(ConnectionInfo, QueryStrings.GetDevicePath, (sqlDataReader) =>
+            //{
+            //    return SqlSupport.Read<String>(sqlDataReader, "physical_name");
+            //}).FirstOrDefault();
+
+            //File.Delete(pathDevice);
+
+            ExecuteQuery<int>.ExecuteNonQuery(ConnectionInfo, QueryStrings.BackupDBWithInit);
+
+            CurrentDataBase = _currentDB;
+        }
+
+        public void BackupToPosition(int position)
+        {
+            QueryStrings.RestoreDBToAPosition = position.ToString();
+
+            ExecuteQuery<int>.Execute(ConnectionInfo, QueryStrings.RestoreDBToAPosition, null);
+        }
+
+        public bool DeleteBackupByPosition(int position)
+        {
+            QueryStrings.DeleteBackupByPosition = position.ToString();
+
+            try
+            {
+                ExecuteQuery<int>.ExecuteNonQuery(ConnectionInfo, QueryStrings.DeleteBackupByPosition);
+                CurrentDataBase = _currentDB;
+                return true;
+            }
+            catch (SqlException sqlEx)
+            {
+                if (sqlEx.Number == 12)
+                {
+                    return false;
+                }
+                return false;
+            }
+        }
+
+        public bool RestoreDBToPosition(int position)
+        {
+            QueryStrings.RestoreDBToAPosition = position.ToString();
+            try
+            {
+                ExecuteQuery<int>.ExecuteNonQuery(ConnectionInfo, QueryStrings.RestoreDBToAPosition);
+   
+                return true;
+            }
+            catch (SqlException sqlEx)
+            {
+                if (sqlEx.Number == 12)
+                {
+                    return false;
+                }
+                return false;
+            }
+        }
+
+        public bool ValidateRestoreDBByTime()
+        {
+            try
+            {
+                int result = ExecuteQuery<int>.Execute(ConnectionInfo, QueryStrings.ValidateRestoreDBByTime, (sqlDataReader)=> {
+
+                            return SqlSupport.Read<Int32>(sqlDataReader, "result");
+                        }).FirstOrDefault<int>();
+
+                if(result == 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch (SqlException sqlEx)
+            {
+                return false;
+            }
+        }
+
+        public bool RestoreBDByTime(DateTime dateTimeRestore)
+        {
+            QueryStrings.CurrentPathDevice = ExecuteQuery<String>.Execute(ConnectionInfo, QueryStrings.GetDevicePath, (sqlDataReader) =>
+            {
+                return SqlSupport.Read<String>(sqlDataReader, "physical_name");
+            }).FirstOrDefault();
+
+
+            QueryStrings.ThirdRestoreDBByTime = dateTimeRestore.ToString("yyyy-MM-dd HH:mm:ss");
+
+            try
+            {
+                ExecuteQuery<int>.ExecuteNonQuery(ConnectionInfo, QueryStrings.FirstRestoreDbByTime);
+                ExecuteQuery<int>.Execute(ConnectionInfo, QueryStrings.SecondRestoreDBByTime, null);
+                ExecuteQuery<int>.ExecuteNonQuery(ConnectionInfo, QueryStrings.ThirdRestoreDBByTime);
+                ExecuteQuery<int>.ExecuteNonQuery(ConnectionInfo, QueryStrings.LastRestoreDBByTime);
+
+                return true;
+            }
+            catch (SqlException sqlEx)
+            {
+                return false;
+            }
         }
 
         #region Support Function

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lbl_Time = new System.Windows.Forms.Label();
@@ -45,12 +46,14 @@
             this.dtp_TimeRestore = new System.Windows.Forms.DateTimePicker();
             this.dtp_DateRestore = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
-            this.ckb_DelAllBeforeBackup = new System.Windows.Forms.CheckBox();
+            this.chk_DelAllBeforeBackup = new System.Windows.Forms.CheckBox();
             this.lsv_BackupVersions = new System.Windows.Forms.ListView();
             this.clmn_Position = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmn_Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmn_Date = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmn_User = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.cms_Tool = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmsi_Delete = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.lbl_DbName = new System.Windows.Forms.Label();
@@ -74,6 +77,7 @@
             this.panel3.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.pnl_WorkControl.SuspendLayout();
+            this.cms_Tool.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -238,7 +242,7 @@
             this.pnl_WorkControl.Controls.Add(this.dtp_TimeRestore);
             this.pnl_WorkControl.Controls.Add(this.dtp_DateRestore);
             this.pnl_WorkControl.Controls.Add(this.label5);
-            this.pnl_WorkControl.Controls.Add(this.ckb_DelAllBeforeBackup);
+            this.pnl_WorkControl.Controls.Add(this.chk_DelAllBeforeBackup);
             this.pnl_WorkControl.Controls.Add(this.lsv_BackupVersions);
             this.pnl_WorkControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnl_WorkControl.Location = new System.Drawing.Point(3, 35);
@@ -248,7 +252,7 @@
             // 
             // dtp_TimeRestore
             // 
-            this.dtp_TimeRestore.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtp_TimeRestore.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtp_TimeRestore.Location = new System.Drawing.Point(470, 307);
             this.dtp_TimeRestore.MinDate = new System.DateTime(2020, 1, 1, 0, 0, 0, 0);
             this.dtp_TimeRestore.Name = "dtp_TimeRestore";
@@ -257,12 +261,13 @@
             // 
             // dtp_DateRestore
             // 
-            this.dtp_DateRestore.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtp_DateRestore.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtp_DateRestore.Location = new System.Drawing.Point(339, 307);
             this.dtp_DateRestore.MinDate = new System.DateTime(2020, 1, 1, 0, 0, 0, 0);
             this.dtp_DateRestore.Name = "dtp_DateRestore";
             this.dtp_DateRestore.Size = new System.Drawing.Size(116, 26);
             this.dtp_DateRestore.TabIndex = 3;
+            this.dtp_DateRestore.Value = System.DateTime.Now;
             // 
             // label5
             // 
@@ -273,15 +278,15 @@
             this.label5.TabIndex = 2;
             this.label5.Text = "Ngày giờ muốn phục hồi đến ";
             // 
-            // ckb_DelAllBeforeBackup
+            // chk_DelAllBeforeBackup
             // 
-            this.ckb_DelAllBeforeBackup.AutoSize = true;
-            this.ckb_DelAllBeforeBackup.Location = new System.Drawing.Point(182, 242);
-            this.ckb_DelAllBeforeBackup.Name = "ckb_DelAllBeforeBackup";
-            this.ckb_DelAllBeforeBackup.Size = new System.Drawing.Size(382, 22);
-            this.ckb_DelAllBeforeBackup.TabIndex = 1;
-            this.ckb_DelAllBeforeBackup.Text = "Xóa tất cả các bản backup trước đó  rồi mới backup";
-            this.ckb_DelAllBeforeBackup.UseVisualStyleBackColor = true;
+            this.chk_DelAllBeforeBackup.AutoSize = true;
+            this.chk_DelAllBeforeBackup.Location = new System.Drawing.Point(182, 242);
+            this.chk_DelAllBeforeBackup.Name = "chk_DelAllBeforeBackup";
+            this.chk_DelAllBeforeBackup.Size = new System.Drawing.Size(382, 22);
+            this.chk_DelAllBeforeBackup.TabIndex = 1;
+            this.chk_DelAllBeforeBackup.Text = "Xóa tất cả các bản backup trước đó  rồi mới backup";
+            this.chk_DelAllBeforeBackup.UseVisualStyleBackColor = true;
             // 
             // lsv_BackupVersions
             // 
@@ -290,6 +295,7 @@
             this.clmn_Description,
             this.clmn_Date,
             this.clmn_User});
+            this.lsv_BackupVersions.ContextMenuStrip = this.cms_Tool;
             this.lsv_BackupVersions.Dock = System.Windows.Forms.DockStyle.Top;
             this.lsv_BackupVersions.FullRowSelect = true;
             this.lsv_BackupVersions.GridLines = true;
@@ -326,6 +332,20 @@
             this.clmn_User.Text = "User Backup";
             this.clmn_User.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.clmn_User.Width = 250;
+            // 
+            // cms_Tool
+            // 
+            this.cms_Tool.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmsi_Delete});
+            this.cms_Tool.Name = "cms_Tool";
+            this.cms_Tool.Size = new System.Drawing.Size(95, 26);
+            // 
+            // cmsi_Delete
+            // 
+            this.cmsi_Delete.Name = "cmsi_Delete";
+            this.cmsi_Delete.Size = new System.Drawing.Size(94, 22);
+            this.cmsi_Delete.Text = "Xóa";
+            this.cmsi_Delete.Click += new System.EventHandler(this.cmsi_Delete_Click);
             // 
             // flowLayoutPanel2
             // 
@@ -413,6 +433,7 @@
             this.btn_Backup.Text = "Sao Lưu";
             this.btn_Backup.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btn_Backup.UseVisualStyleBackColor = true;
+            this.btn_Backup.Click += new System.EventHandler(this.btn_Backup_Click);
             // 
             // btn_Restore
             // 
@@ -427,6 +448,7 @@
             this.btn_Restore.Text = "Phục Hồi";
             this.btn_Restore.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btn_Restore.UseVisualStyleBackColor = true;
+            this.btn_Restore.Click += new System.EventHandler(this.btn_Restore_Click);
             // 
             // btn_RestoreByTime
             // 
@@ -441,6 +463,7 @@
             this.btn_RestoreByTime.Text = "Phục hồi theo TG";
             this.btn_RestoreByTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btn_RestoreByTime.UseVisualStyleBackColor = true;
+            this.btn_RestoreByTime.Click += new System.EventHandler(this.btn_RestoreByTime_Click);
             // 
             // btn_CreateDevice
             // 
@@ -455,6 +478,7 @@
             this.btn_CreateDevice.Text = "Tạo Device";
             this.btn_CreateDevice.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btn_CreateDevice.UseVisualStyleBackColor = true;
+            this.btn_CreateDevice.Click += new System.EventHandler(this.btn_CreateDevice_Click);
             // 
             // btn_Exit
             // 
@@ -469,6 +493,7 @@
             this.btn_Exit.Text = "Thoát";
             this.btn_Exit.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btn_Exit.UseVisualStyleBackColor = true;
+            this.btn_Exit.Click += new System.EventHandler(this.btn_Exit_Click);
             // 
             // uc_login
             // 
@@ -506,6 +531,7 @@
             this.tableLayoutPanel5.ResumeLayout(false);
             this.pnl_WorkControl.ResumeLayout(false);
             this.pnl_WorkControl.PerformLayout();
+            this.cms_Tool.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
@@ -546,10 +572,12 @@
         private System.Windows.Forms.DateTimePicker dtp_TimeRestore;
         private System.Windows.Forms.DateTimePicker dtp_DateRestore;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.CheckBox ckb_DelAllBeforeBackup;
+        private System.Windows.Forms.CheckBox chk_DelAllBeforeBackup;
         private System.Windows.Forms.ColumnHeader clmn_Position;
         private System.Windows.Forms.ColumnHeader clmn_Description;
         private System.Windows.Forms.ColumnHeader clmn_Date;
         private System.Windows.Forms.ColumnHeader clmn_User;
+        private System.Windows.Forms.ContextMenuStrip cms_Tool;
+        private System.Windows.Forms.ToolStripMenuItem cmsi_Delete;
     }
 }
